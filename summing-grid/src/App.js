@@ -26,6 +26,10 @@ class App extends Component {
     }
   };
 
+  renderFunc = displayElem => {
+    return <div className={"small-width-wrapper"}>{displayElem}</div>;
+  };
+
   render() {
     const sumVal = this.state.fieldVals.reduce((sum, val) => sum + val, 0);
     return (
@@ -33,14 +37,29 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        {this.state.fieldVals.map((val, index) => (
-          <SumField
-            key={index}
-            value={val}
-            onChange={event => this.onNumChange(index, event.target.value)}
-          />
-        ))}
-        <SumDisplay displayVal={sumVal} />
+        <div className={"flex-wrapper"}>
+          <div className={"med-width-wrapper"}>
+            <SumField
+              value={this.state.fieldVals[0]}
+              onChange={event => this.onNumChange(0, event.target.value)}
+              render={this.renderFunc}
+            />
+            <SumField
+              value={this.state.fieldVals[1]}
+              onChange={event => this.onNumChange(1, event.target.value)}
+              render={this.renderFunc}
+            />
+          </div>
+          <div className={"med-width-wrapper"}>
+            <SumField
+              value={this.state.fieldVals[2]}
+              onChange={event => this.onNumChange(2, event.target.value)}
+              render={this.renderFunc}
+            />
+            <SumDisplay displayVal={sumVal} render={this.renderFunc} />
+          </div>
+        </div>
+        {this.state.error && <span className={"error-text"}>{this.state.error}</span>}
       </div>
     );
   }
